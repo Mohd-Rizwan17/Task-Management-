@@ -1,0 +1,279 @@
+# 📌 Task Management Backend API
+
+## 🚀 Overview
+
+This project is a **secure RESTful API** built using Node.js and Express.js.
+It allows users to register, log in, and manage their personal tasks with proper authentication and authorization.
+
+The system uses:
+
+- **PostgreSQL** → for user data
+- **MongoDB** → for task data
+
+---
+
+## 🛠 Tech Stack
+
+- Node.js
+- Express.js
+- PostgreSQL (pg)
+- MongoDB (Mongoose)
+- JWT (Authentication)
+- bcrypt.js (Password Hashing)
+- Joi (Validation)
+- dotenv (Environment Variables)
+
+---
+
+## 📂 Folder Structure
+
+```
+project/
+│── src/
+│   ├── config/        # DB connections
+│   ├── controller/    # Business logic
+│   ├── middleware/    # Auth & error handling
+│   ├── models/        # MongoDB schemas
+│   ├── routes/        # API routes
+│   ├── utils/         # Validation (Joi)
+│
+│── .env
+│── server.js
+```
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1️⃣ Clone Repository
+
+```
+git clone <your-repo-link>
+cd project-folder
+```
+
+### 2️⃣ Install Dependencies
+
+```
+npm install
+```
+
+### 3️⃣ Create `.env` File
+
+```
+PORT=5000
+JWT_SECRET=your_secret_key
+
+# PostgreSQL (Neon / any cloud)
+PG_URI=your_postgres_connection_string
+
+# MongoDB (Atlas)
+MONGO_URI=your_mongodb_connection_string
+```
+
+---
+
+### 4️⃣ Run Server
+
+```
+npm run dev
+```
+
+Server will start at:
+
+```
+http://localhost:5000
+```
+
+---
+
+## 🔐 Authentication
+
+All protected routes require JWT token:
+
+```
+Authorization: Bearer <token>
+```
+
+---
+
+## 📌 API Endpoints
+
+### 👤 Auth Routes
+
+#### Register User
+
+```
+POST /api/auth/register
+```
+
+Body:
+
+```json
+{
+  "email": "test@gmail.com",
+  "password": "123456"
+}
+```
+
+---
+
+#### Login User
+
+```
+POST /api/auth/login
+```
+
+Response:
+
+```json
+{
+  "token": "your_jwt_token"
+}
+```
+
+---
+
+#### Get Profile (Protected)
+
+```
+GET /api/auth/me
+```
+
+Response:
+
+```json
+{
+  "id": 1,
+  "email": "test@gmail.com"
+}
+```
+
+---
+
+## 📝 Task Routes (Protected)
+
+#### Create Task
+
+```
+POST /api/tasks
+```
+
+```json
+{
+  "title": "Task",
+  "description": "Test",
+  "dueDate": "2026-04-25",
+  "status": "pending"
+}
+```
+
+---
+
+#### Get All Tasks
+
+```
+GET /api/tasks
+```
+
+---
+
+#### Get Single Task
+
+```
+GET /api/tasks/:id
+```
+
+---
+
+#### Update Task
+
+```
+PUT /api/tasks/:id
+```
+
+---
+
+#### Delete Task
+
+```
+DELETE /api/tasks/:id
+```
+
+---
+
+## 🔒 Security Features
+
+- Password hashing using bcrypt
+- JWT-based authentication
+- Protected routes with middleware
+- Ownership check (users can only access their own tasks)
+
+---
+
+## ⚠️ Error Handling
+
+Global error handler implemented for:
+
+- 400 → Bad Request
+- 401 → Unauthorized
+- 403 → Forbidden
+- 404 → Not Found
+- 500 → Server Error
+
+---
+
+## ✅ Data Validation
+
+- Email format validation
+- Password length validation
+- Task fields validation (title, dueDate, etc.)
+
+---
+
+## 🧠 Design Decisions
+
+- **PostgreSQL for Users**
+  Structured data (email, password) fits relational DB.
+
+- **MongoDB for Tasks**
+  Flexible schema for task management.
+
+- **JWT Authentication**
+  Stateless and scalable.
+
+- **Modular Structure**
+  Clean separation of concerns (routes, controllers, models).
+
+---
+
+## 🧪 Testing
+
+All APIs tested using Postman.
+
+---
+
+## 🎯 Features Completed
+
+- User Registration & Login
+- JWT Authentication
+- User Profile
+- Full Task CRUD
+- Ownership Protection
+- Validation & Error Handling
+- Dual Database Integration
+
+---
+
+## 🚀 Future Improvements
+
+- Pagination for tasks
+- Search & filtering
+- Role-based access
+- Deployment
+
+---
+
+## 👨‍💻 Author
+
+Mohd Rizwan
