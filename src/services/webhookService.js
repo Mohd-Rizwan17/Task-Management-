@@ -13,7 +13,7 @@ const sendWebhook = async (data, retries = 3) => {
           sendWebhook(data, retries - 1);
         },
         (4 - retries) * 1000,
-      ); // delay increase
+      );
     } else {
       console.log("💀 Webhook failed after retries");
     }
