@@ -30,13 +30,14 @@ The system uses:
 ```
 project/
 │── src/
-│   ├── config/        # DB connections
-│   ├── controller/    # Business logic
-│   ├── middleware/    # Auth & error handling
-│   ├── models/        # MongoDB schemas
-│   ├── routes/        # API routes
-│   ├── utils/         # Validation (Joi)
-│
+│   ├── config/         # DB & Redis connections
+│   ├── controller/     # Logic for Auth, Tasks, Categories, Tags
+│   ├── middleware/     # Auth & validation
+│   ├── models/         # Mongo & Postgres schemas
+│   ├── workers/        # Reminder & Webhook background processors (New)
+│   ├── services/       # External API / Webhook logic (New)
+│   ├── routes/         # API endpoints
+│   ├── utils/          # Scheduling & validation helpers
 │── .env
 │── server.js
 ```
@@ -61,7 +62,6 @@ npm install
 ### 3️⃣ Create `.env` File
 
 ```
-PORT=5000
 JWT_SECRET=your_secret_key
 
 # PostgreSQL (Neon / any cloud)
@@ -274,6 +274,84 @@ All APIs tested using Postman.
 
 ---
 
+---
+
+# 🆕 🔥 Assignment 3 Features
+
+---
+
+## ⏰ 1. Real-time Task Reminders (Simulated)
+
+- When a task has a `dueDate`, a reminder is scheduled
+- Reminder triggers **1 hour before due date**
+- Uses:
+  - `setTimeout` / in-memory queue
+
+### Behavior:
+
+- If task updated → reminder rescheduled
+- If task completed → reminder cancelled
+
+### Output:
+
+- Console log OR webhook trigger
+
+---
+
+## 🏷 2. Categories & Tags
+
+### 📁 Categories
+
+- Example:
+  - Work
+  - Personal
+  - Urgent
+
+### Endpoints:
+
+POST /api/categories
+GET /api/categories
+PUT /api/categories/:id
+DELETE /api/categories/:id
+
+---
+
+### 🏷 Tags (Free-form)
+
+- Example:
+  - High Priority
+  - Client A
+  - Bug Fix
+
+### Used inside tasks:
+
+```json
+{
+  "tags": ["urgent", "client"]
+}
+🔍 Filter Tasks
+GET /api/tasks?category=Work&tag=urgent
+🌐 3. Webhook Integration (Task Completion)
+
+When task status → completed
+
+Action:
+Sends POST request to external webhook
+Payload:
+{
+  "taskId": "123",
+  "title": "Task Name",
+  "completedAt": "date",
+  "userId": "user_id"
+}
+🔁 Retry Logic
+3 retries
+Exponential backoff:
+1st → 1s
+2nd → 2s
+3rd → 4s
+
 ## 👨‍💻 Author
 
 Mohd Rizwan
+```
